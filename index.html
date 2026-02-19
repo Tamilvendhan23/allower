@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
+<link rel="icon" href="logo.png" type="image/png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<style src="styles.css"></style>
+<title>MTC Passes</title>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0e0e14;
+    --header-bg: #0e0e14;
+    --pill-bg: #1e1e2a;
+    --pill-border: #2e2e3e;
+    --text-primary: #f0f0f0;
+    --text-muted: #888;
+    --red: #e53030;
+    --nav-bg: #13131c;
+    --nav-border: #1e1e2a;
+    --overlay-bg: rgba(255,255,255,0.92);
+    --overlay-text: #111;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    font-family: 'SF Pro Display', -apple-system, 'Segoe UI', sans-serif;
+    color: var(--text-primary);
+    overflow: hidden;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px 10px;
+    background: var(--header-bg);
+    flex-shrink: 0;
+  }
+
+  .header-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--text-primary);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pill-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 13px;
+    border-radius: 50px;
+    border: 1px solid var(--pill-border);
+    background: var(--pill-bg);
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .pill-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--text-primary);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* ── Tag row ── */
+  .tag-row {
+    padding: 9px 18px;
+    flex-shrink: 0;
+  }
+
+  .tag {
+    opacity: 90%;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    /* background: var(--pill-bg); */
+    background: white;
+    border: 1px solid var(--pill-border);
+    font-size: 13px;
+    font-weight: 500;
+    color:  black;
+  }
+
+  
+
+  /* ── Main content ── */
+  .main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    overflow: hidden;
+  }
+
+  /* ── Card container ── */
+  .card-container {
+    position: relative;
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+
+  .card-container img.pass-card {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+  }
+
+  /* Placeholder styling when no real image */
+  .card-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #c8a84b 0%, #f5d98e 40%, #b8922e 70%, #d4aa50 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(0,0,0,0.3);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* ── Live clock overlay ── */
+  .clock-overlay { 
+    position: absolute;
+    bottom: 50px;
+    opacity: 80%;
+    left: 14px;
+    background: var(--overlay-bg);
+    color: var(--overlay-text);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    min-width: 80px;  
+  }
+  .qr_code {
+    opacity: 75%;
+    position: absolute;
+    bottom: 45px;
+    right: 12px;
+    background: var(--overlay-bg);
+    color: var(--overlay-text);
+    border-radius: 8px;   
+  }
+
+  .clock-date { font-size: 13px; font-weight: 500; color: #333; }
+  .clock-time { font-size: 13px; font-weight: 700; color: #111; letter-spacing: 0.9px; ; }
+
+  /* ── Bottom Nav ── */
+  .bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+    background: var(--nav-bg);
+    border-top: 1px solid var(--nav-border);
+    flex-shrink: 0;
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    flex: 1;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+
+  .nav-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .nav-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .nav-item.active .nav-label { color: var(--red); }
+  .nav-item.active .nav-icon svg { stroke: var(--red); }
+
+  /* Active passes icon has filled circle style */
+  .nav-item.active .nav-icon .passes-dot {
+    width: 8px; height: 8px;
+    background: var(--red);
+    border-radius: 50%;
+    position: absolute;
+    top: -2px; right: -2px;
+  }
+
+  .nav-item.active .passes-icon-wrap {
+    position: relative;
+    background: var(--red);
+    border-radius: 50%;
+    padding: 5px;
+  }
+
+  .nav-item.active .passes-icon-wrap svg {
+    stroke: #fff;
+    width: 18px; height: 18px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <header class="header">
+    <span class="header-title">Passes</span>
+    <div class="header-actions">
+      <button class="pill-btn">
+        
+        <img src="call.png" style="width:15px; height:15px;">
+          Help
+      </button>
+      <button class="pill-btn">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        History
+      </button>
+    </div>
+  </header>
+
+  <!-- Tag row -->
+  <div class="tag-row">
+    <div class="tag">
+        <img src="bus.png" style="width:20px; height:20px;">
+        Bus(1/1)
+    </div>
+  </div>
+
+  <!-- Main pass card area -->
+  <main class="main">
+    <div class="card-container">
+      <!-- Replace src with actual pass card image URL -->
+      <img class="pass-card" src="pass.png" alt="MTC Bus Pass"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="card-placeholder" style="display:none;">PASS CARD IMAGE</div>
+
+      <!-- Live clock overlay -->
+      <div class="clock-overlay">
+        <div class="clock-date" id="clockDate"></div>
+        <div class="clock-time" id="clockTime"></div>
+    <!-- ADD THIS → -->
+   
+    </div>
+      <div class="qr_code">
+        <img src="qr_code.png" style="width:60px; height:60px; border-radius:12px;">
+
+    <!-- ADD THIS → -->
+   
+    </div>
+    <!-- Amount overlay -->
+<div style="
+  position: absolute;
+  font-family:sans-serif;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  /* background: rgba(255,255,255,0.92); */
+  border-radius: 10px;
+  padding: 6px 18px;
+  font-size: 26px;
+  font-weight: 800;
+  color: #111;
+  letter-spacing: 1px;
+  backdrop-filter: blur(4px);
+">₹1000</div>
+
+<!-- Valid Till overlay -->
+<div style="
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  padding: 5px 14px;
+  backdrop-filter: blur(4px);
+  letter-spacing: 1px;
+  white-space: nowrap;    ">
+  <div style="font-size: 11px; color: #555; font-weight: 500; letter-spacing: 1px;">VALID TILL</div><br>
+  <div style="font-size: 15px; color: #111; font-weight: 700; line-height: 0.01">17/03/2026</div>
+</div>
+    </div>
+  </main>
+
+  <!-- Bottom navigation -->
+  <nav class="bottom-nav">
+    <div class="nav-item">
+      <div class="nav-icon">
+        <img src="home.png" style="width:24px; height:24px;" alt="">
+        </div>
+      <span class="nav-label">Home</span>
+    </div>
+
+    <div class="nav-item active">
+      <div class="nav-icon">
+        <div class="passes-icon-wrap">
+        <img src="pass_bar.png" style="width:24px; height:20px;" alt=""> 
+        </div>
+      </div>
+      <span class="nav-label">Passes</span>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-icon">
+        <img src="flag.png" style="width:24px; height:24px;" alt="">  </div>
+      <span class="nav-label">Live</span>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-icon">
+       <img src="ticket.png" style="width:24px; height:24px;" alt=""></div>
+      <span class="nav-label">Ticket</span>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-icon">
+       <img src="user.png" style="width:24px; height:24px;"> 
+      </div>
+      <span class="nav-label">Profile</span>
+    </div>
+  </nav>
+
+</div>
+
+<script>
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  function updateClock() {
+    const now = new Date();
+    const dateEl = document.getElementById('clockDate');
+    const timeEl = document.getElementById('clockTime');
+    if (!dateEl || !timeEl) return;
+
+    const d = `${months[now.getMonth()]} ${now.getDate()}`;
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const ss = String(now.getSeconds()).padStart(2,'0');
+    dateEl.textContent = d;
+    timeEl.textContent = `${hh}:${mm}:${ss}`;
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+</body>
+</html>
