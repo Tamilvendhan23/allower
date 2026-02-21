@@ -39,6 +39,13 @@ navItems.forEach(item => {
   });
 });
 
+// ── Register Service Worker (offline support) ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js');
+}
+
+// disable right click
+document.addEventListener('contextmenu', e => e.preventDefault());
 // ── QR code alternator ──
 const qrImages = [
   'assets/images/qr_code.png',
@@ -94,7 +101,7 @@ function activatePass() {
   // Show activated stamp with entered code
   const wrap = document.getElementById('activatedStampWrap');
   const text = document.getElementById('activatedStampText');
-  text.innerHTML = `Pass<br>Activated !<br><span style="font-size:8px;letter-spacing:2px;">${enteredCode}</span>`;
+  text.innerHTML = `<span style="font-size:12px;letter-spacing:2px; line-height:7;">${enteredCode}</span>`;
   wrap.style.display = 'block';
 
   // Reset ticket input
