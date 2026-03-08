@@ -77,6 +77,7 @@ function keyPress(char){
  ticketInput += char;
  updateTicketDisplay();
  updateKeyboardState();
+ document.querySelector('.bottom-nav').style.display = 'none';
 }
 
 function keyDelete(){
@@ -84,6 +85,9 @@ function keyDelete(){
  ticketInput = ticketInput.slice(0,-1);
  updateTicketDisplay();
  updateKeyboardState();
+  if(ticketInput.length === 0){
+   document.querySelector('.bottom-nav').style.display = 'flex';
+ }
 }
 
 function updateKeyboardState(){
@@ -143,6 +147,8 @@ function activatePass() {
   // Reset ticket input
   ticketInput = '';
   updateTicketDisplay();
+
+  document.querySelector('.bottom-nav').style.display = 'flex';
 }
 
 // ── Generic image preview (clock, QR, profile) ──
