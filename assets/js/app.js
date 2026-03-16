@@ -33,6 +33,10 @@ navItems.forEach(item => {
     document.getElementById('page-' + target).classList.add('active');
     headerTitle.textContent = title;
     mainHeader.style.display = HEADER_PAGES.includes(target) ? 'flex' : 'none';
+
+    // Hide footer on ticket page, show on all others
+    document.querySelector('.bottom-nav').style.display =
+      target === 'ticket' ? 'none' : 'flex';
   });
 });
 
@@ -227,6 +231,7 @@ function handleVerifyClick(){
     document.getElementById('page-ticket').classList.add('active');
 
     mainHeader.style.display = "none";
+    
 
   }else{
 

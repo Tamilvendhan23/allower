@@ -126,7 +126,7 @@
             <!-- Valid Till -->
             <div class="validity-overlay"> 
               <div class="validity-label">VALID TILL</div>
-              <div class="validity-date">17/03/2026</div>
+              <div class="validity-date">14/04/2026</div>
             </div>
 
             <!-- Activated stamp on card -->
@@ -146,6 +146,7 @@
 
         <!-- Renew button — always visible below -->
          <div class="renew-btn-page" onclick="renewPass()">Renew</div>
+         <br><br><br><br>
 
       </div><!-- /.passes-scroll -->
     </div>
@@ -159,8 +160,10 @@
     <div id="page-ticket" class="page">
 
       <div class="ticket-image-half">
-        <img src="assets/images/pages/ticket_page.png" alt="Ticket"
-             style="width:100%;height:100%;object-fit:cover;display:block;">
+        <img src="assets/images/pages/ticket_page.png"
+     alt="Ticket"
+     style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;"
+     onclick="window.history.back();">
       </div>
 
       <div class="ticket-bottom-half">
