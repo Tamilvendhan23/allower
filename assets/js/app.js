@@ -196,10 +196,8 @@ function openImagePreview(type) {
     tickPreviewClock();
     previewClockTimer = setInterval(tickPreviewClock, 1000);
 
-  } else if (type === 'profile') {
-    img.style.display = 'block';
-    img.src = 'assets/images/profile.jpg';
-    img.style.borderRadius = '50%'; 
+  } else if (type === "profile") {
+    img.src = "assets/images/profile.jpg";
   }
 
   if (type !== 'clock') {
