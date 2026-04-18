@@ -239,6 +239,41 @@ function handleVerifyClick(){
   }
 
 }
+// back to home from ticket page,
+// ---- existing nav logic (keep or add if missing) ----
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const page = item.dataset.page;
+
+    // switch page
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+
+    // update footer active
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    item.classList.add('active');
+
+    // update header
+    const title = document.getElementById('headerTitle');
+    if (title) title.innerText = item.dataset.title;
+  });
+});
+
+// ---- trigger HOME nav from ticket image ----
+function goBackToHome() {
+  const homeNav = document.querySelector('.nav-item[data-page="home"]');
+  if (homeNav) homeNav.click();
+}
+
+// attach click
+document.addEventListener("DOMContentLoaded", () => {
+  const ticketImg = document.querySelector('.ticket-img');
+  if (ticketImg) {
+    ticketImg.addEventListener('click', goBackToHome);
+  }
+});
+
+
 
 // renew pass (just resets everything)
 function renewPass(){
