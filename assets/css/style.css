@@ -126,12 +126,9 @@ html, body {
   border-radius:20%;
   object-fit:cover;
   z-index: 10;
-
   opacity: 0;              /* hidden */
   transform: scale(0.8);  /* slight shrink */
   transition: all 0.3s ease;
-  cursor: pointer;
-
 }
 
 /* ── Clock overlay ── */
