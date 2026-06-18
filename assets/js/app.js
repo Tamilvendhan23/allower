@@ -37,10 +37,6 @@ function switchToPage(target, title) {
 
   // Hide footer on ticket page, show on all others
   document.querySelector('.bottom-nav').style.display = target === 'ticket' ? 'none' : 'flex';
-
-  // Remember last page for this session
-  sessionStorage.setItem('lastPage', target);
-  sessionStorage.setItem('lastTitle', title || target);
 }
 
 navItems.forEach(item => {
@@ -94,8 +90,13 @@ function keyPress(char) {
 
   const isAlpha = ['J', 'K', 'I', 'S'].includes(char);
 
-  // Alphabet allowed ONLY as the very first character, never afterwards
-  if (isAlpha && ticketInput.length !== 0) return;
+  if (ticketInput.length === 0) {
+    // First position must be alphabet
+    if (!isAlpha) return;
+  } else {
+    // All other positions must be numbers only
+    if (isAlpha) return;
+  }
 
   ticketInput += char;
   updateTicketDisplay();
@@ -219,7 +220,6 @@ function handleVerifyClick() {
 // ── Renew pass ──
 function renewPass() {
   document.getElementById('activatedStampWrap').style.display = 'none';
-  document.getElementById('previewBtn').style.display = 'none';
 
   currentEnteredCode = '';
   localStorage.removeItem('enteredCode');
@@ -248,16 +248,9 @@ function closeStampPreview() {
 updateTicketDisplay();
 updateKeyboardState();
 
-// Restore activated pass state if it exists in this session
+// Restore activated pass state if it exists (saved permanently)
 if (currentEnteredCode) {
   showActivatedStamp(currentEnteredCode);
-}
-
-// Restore last visited page (within same browser session)
-const savedPage  = sessionStorage.getItem('lastPage');
-const savedTitle = sessionStorage.getItem('lastTitle');
-if (savedPage) {
-  switchToPage(savedPage, savedTitle);
 }
 
 // ── Service Worker (offline support) ──
@@ -276,10 +269,7 @@ function hideSplash() {
   setTimeout(() => splash.style.display = 'none', 500);
 }
 
-if (sessionStorage.getItem('splashPlayed')) {
-  splash.style.display = 'none';
-} else {
+if (splash && splashVideo) {
   splashVideo.addEventListener('ended', hideSplash);
   setTimeout(hideSplash, 5000);
-  sessionStorage.setItem('splashPlayed', 'true');
 }

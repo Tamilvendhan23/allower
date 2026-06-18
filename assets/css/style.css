@@ -296,7 +296,7 @@ html, body {
   font-weight: 700;
   color: white;
   letter-spacing: 1px;
-  line-height: 1.6;
+  line-height: 0.5;
   text-shadow: 0 1px 6px rgba(0,0,0,0.8);
   pointer-events: none;
   white-space: nowrap;
