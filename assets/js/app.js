@@ -145,7 +145,7 @@ function updateTicketDisplay() {
 function keyPress(char) {
   if (ticketInput.length >= MAX_LEN) return;
 
-  const isAlpha = ['J', 'K', 'I', 'S'].includes(char);
+  const isAlpha = ['J', 'K', 'I', 'S', 'L'].includes(char);
 
   if (ticketInput.length === 0) {
     // First position must be alphabet
@@ -166,9 +166,12 @@ function keyDelete() {
   ticketInput = ticketInput.slice(0, -1);
   updateTicketDisplay();
   updateKeyboardState();
-  if (ticketInput.length === 0) {
-    document.querySelector('.bottom-nav').style.display = 'none'; // stays hidden on ticket page
-  }
+}
+
+function keyClear() {
+  ticketInput = '';
+  updateTicketDisplay();
+  updateKeyboardState();
 }
 
 function updateKeyboardState() {
@@ -192,19 +195,42 @@ function showActivatedStamp(code) {
   document.getElementById('previewBtn').style.display = 'block';
 }
 
+// ── Recently used tickets ──
+function getRecentTickets() {
+  return JSON.parse(localStorage.getItem('recentTickets') || '[]');
+}
+
+function saveRecentTicket(code) {
+  let recent = getRecentTickets().filter(c => c !== code);
+  recent.unshift(code);
+  localStorage.setItem('recentTickets', JSON.stringify(recent.slice(0, 3)));
+}
+
+function renderRecentTickets() {
+  const el = document.getElementById('recentTickets');
+  if (!el) return;
+  const recent = getRecentTickets();
+  el.innerHTML = recent.map(code =>
+    `<div class="recent-chip" onclick="fillFromRecent('${code}')">${code}</div>`
+  ).join('');
+}
+
+function fillFromRecent(code) {
+  ticketInput = code;
+  updateTicketDisplay();
+  updateKeyboardState();
+}
+
 function activatePass() {
   if (ticketInput.length < MAX_LEN) return;
 
   currentEnteredCode = ticketInput;
   localStorage.setItem('enteredCode', currentEnteredCode);
+  saveRecentTicket(currentEnteredCode);
 
-  // Switch to passes page
   switchToPage('passes', 'Passes');
-
-  // Show stamp on card
   showActivatedStamp(currentEnteredCode);
 
-  // Reset ticket input
   ticketInput = '';
   updateTicketDisplay();
 }
@@ -301,9 +327,10 @@ function closeStampPreview() {
   document.getElementById('stampPreviewOverlay').style.display = 'none';
 }
 
-// ── Init ──
+// ── Init ──// ── Init ──
 updateTicketDisplay();
 updateKeyboardState();
+renderRecentTickets();
 
 // Restore activated pass state if it exists (saved permanently)
 if (currentEnteredCode) {

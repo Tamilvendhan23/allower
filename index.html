@@ -181,10 +181,20 @@
           Activate Pass <span class="chevrons">&raquo;</span>
         </div>
 
-        <div class="keypad">
+        <!-- Recently used (max 3 chips) -->
+        <div id="recentTickets"></div>
+
+        <!-- Alpha row: I S J K L -->
+        <div class="alpha-row">
+          <div class="key alpha" onclick="keyPress('I')">I</div>
+          <div class="key alpha" onclick="keyPress('S')">S</div>
           <div class="key alpha" onclick="keyPress('J')">J</div>
           <div class="key alpha" onclick="keyPress('K')">K</div>
-          <div class="key alpha" onclick="keyPress('I')">I</div>
+          <div class="key alpha" onclick="keyPress('L')">L</div>
+        </div>
+
+        <!-- Number grid: 3 cols -->
+        <div class="keypad">
           <div class="key num" onclick="keyPress('1')">1</div>
           <div class="key num" onclick="keyPress('2')">2</div>
           <div class="key num" onclick="keyPress('3')">3</div>
@@ -194,7 +204,7 @@
           <div class="key num" onclick="keyPress('7')">7</div>
           <div class="key num" onclick="keyPress('8')">8</div>
           <div class="key num" onclick="keyPress('9')">9</div>
-          <div class="key alpha" onclick="keyPress('S')">S</div>
+          <div class="key del" onclick="keyClear()">Clear</div>
           <div class="key num" onclick="keyPress('0')">0</div>
           <div class="key del" onclick="keyDelete()">⌫</div>
         </div>

@@ -429,11 +429,65 @@ display: flex;
 }
 .key.alpha{
   background:#ffffff;
-  font-size:28px;
+  font-size:22px;
   font-weight:500;
   color:#484848;
 }
 
+/* ── Alpha row (5 keys horizontal) ── */
+.alpha-row {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding: 5px 20px;
+  background: #ffffff;
+  /* border-bottom: 1px solid #f0f0f0; */
+  flex-shrink: 0;
+}
+
+.alpha-row .key.alpha {
+  flex: 1;
+  min-height: 42px;
+  border-radius: 20px;
+  border: 1px solid #e6e3e36e;
+  /* background: #f0f0f0; */
+  font-size: 25px;
+  font-weight: 700;
+  /* color: #333; */
+  color: #edebeb;
+      padding: 6px 5px;
+}
+
+.alpha-row .key.alpha:active { background: #d8d8d8; }
+
+/* ── Recently used chips ── */
+#recentTickets {
+  display: flex;
+  margin: 2px;
+  
+  flex-direction: row;
+  gap: 10px;
+  padding: 3px 10px 5px;
+  flex-shrink: 0;
+  min-height: 0;
+}
+
+.recent-chip {
+  flex: 1;
+  padding: 4px 4px;
+  border-radius: 8px;
+  border:1px solid #e6e3e36e; 
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #a39d9d;
+  letter-spacing: 1px;
+  /* cursor: pointer; */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.recent-chip:active { background: #e8e8e8; }
 .key.num{
   background:#ffffff;
   color:#b5b5b5;
@@ -448,7 +502,7 @@ display: flex;
 
 #ticketEnteredText {
   text-align: center; font-size: 40px; font-weight: 700;
-  letter-spacing: 12px; color: #707070; padding: 6px 0 2px;
+  letter-spacing: 12px; color: #707070; padding: 5px 0 2px;
   min-height: 46px; font-family: monospace;
   display: flex; justify-content: center; gap: 20px;
 }
@@ -460,7 +514,7 @@ display: flex;
   width:50px;
   height:60px;
   border-radius:10px;
-  font-size:42px;
+  font-size:50px;
   font-weight:700;
   color:#9c9c9c;
   background:transparent;
