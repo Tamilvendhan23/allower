@@ -94,6 +94,12 @@ function switchToPage(target, title) {
   // Footer container background matches passes page (black)
   document.getElementById('bottomNav').classList.toggle('passes-active', target === 'passes');
 
+  // Reset ticket input state when opening ticket page
+  if (target === 'ticket') {
+    ticketInput = '';
+    updateTicketDisplay();
+    updateKeyboardState();
+  }
 }
 
 navItems.forEach(item => {
@@ -203,17 +209,30 @@ function getRecentTickets() {
 function saveRecentTicket(code) {
   let recent = getRecentTickets().filter(c => c !== code);
   recent.unshift(code);
-  localStorage.setItem('recentTickets', JSON.stringify(recent.slice(0, 3)));
+  // Keep all, expire entries older than 7 days
+  const now = Date.now();
+  const withTime = JSON.parse(localStorage.getItem('recentTicketsWithTime') || '[]')
+    .filter(e => now - e.time < 7 * 24 * 60 * 60 * 1000 && e.code !== code);
+  withTime.unshift({ code, time: now });
+  localStorage.setItem('recentTicketsWithTime', JSON.stringify(withTime));
+  localStorage.setItem('recentTickets', JSON.stringify(withTime.map(e => e.code)));
 }
 
 function renderRecentTickets() {
   const el = document.getElementById('recentTickets');
   if (!el) return;
-  const recent = getRecentTickets();
-  el.innerHTML = recent.map(code =>
-    `<div class="recent-chip" onclick="fillFromRecent('${code}')">${code}</div>`
+  const now = Date.now();
+  const withTime = JSON.parse(localStorage.getItem('recentTicketsWithTime') || '[]')
+    .filter(e => now - e.time < 7 * 24 * 60 * 60 * 1000);
+  // Update localStorage to remove expired
+  localStorage.setItem('recentTicketsWithTime', JSON.stringify(withTime));
+  localStorage.setItem('recentTickets', JSON.stringify(withTime.map(e => e.code)));
+  el.innerHTML = withTime.map(e =>
+    `<div class="recent-chip" onclick="fillFromRecent('${e.code}')">${e.code}</div>`
   ).join('');
 }
+
+
 
 function fillFromRecent(code) {
   ticketInput = code;
