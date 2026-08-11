@@ -10,6 +10,8 @@
   <link rel="apple-touch-icon" href="assets/images/logo.png">
   <link rel="manifest" href="manifest.json">
  <link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+ 
 <title>MTC Passes</title>
 </head>
 <body>
@@ -84,6 +86,9 @@
       <div class="home-image-wrap">
         <img class="page-image" src="assets/images/pages/home_page.png" alt="Home">
         <div class="home-typewriter" id="homeTypewriter"></div>
+        <div class="home-ticket-btn" onclick="switchToPage('ticket','Ticket')">
+        
+        </div>
       </div>
     </div>
     <!-- ── Passes ── -->
@@ -94,7 +99,7 @@
 
         <div class="tag-row">
           <div class="tag">
-            <img src="assets/images/bus.png" style="width:20px;height:20px;" alt="">
+            <img src="assets/images/bus.png" style="width:15px;height:15px;opacity:0.6;" alt="">
             Bus(1/1)
           </div>
         </div>
@@ -130,12 +135,12 @@
             <!-- Valid Till -->
             <div class="validity-overlay"> 
               <div class="validity-label">VALID TILL</div>
-              <div class="validity-date">23/08/2026</div>
+              <div class="validity-date">30/08/2026</div>
             </div>
 
             <!-- Activated stamp on card -->
             <div id="activatedStampWrap" onclick="openStampPreview()">
-              <img src="assets/images/activated_pass.png" alt="Activated" style="width:120%;display:block;border-radius:10px;">
+              <img src="assets/images/activated_pass.png" alt="Activated" style="width:110%;display:block;border-radius:10px;">
               <div id="activatedStampText"></div>
             </div>
           </div>
@@ -169,7 +174,7 @@
 </div>
       <div class="ticket-bottom-half">
 
-        <div id="ticketEnteredText">
+        <div id="ticketEnteredText" style="font-family: GeistMono;" >
           <span class="input-slot" id="slot0">_</span>
           <span class="input-slot" id="slot1">_</span>
           <span class="input-slot" id="slot2">_</span>
@@ -194,7 +199,7 @@
         </div>
 
         <!-- Number grid: 3 cols -->
-        <div class="keypad">
+        <div class="keypad" style="font-family: GeistMono;">
           <div class="key num" onclick="keyPress('1')">1</div>
           <div class="key num" onclick="keyPress('2')">2</div>
           <div class="key num" onclick="keyPress('3')">3</div>

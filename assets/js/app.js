@@ -272,8 +272,8 @@ function openImagePreview(type) {
     label.innerHTML = `
       <div style="text-align:center; background:rgba(255,255,255,0.95);
         border-radius:16px; padding:24px 36px;">
-        <div id="previewClockDate" style="font-size:20px; color:#555; font-weight:500; letter-spacing:1px; font-family:'PixelCaps', monospace;"></div>
-        <div id="previewClockTime" style="font-size:42px; font-weight:800; color:#111; letter-spacing:3px; font-variant-numeric:tabular-nums; font-family:'PixelCaps', monospace;"></div>
+        <div id="previewClockDate" style="font-size:20px; color:black; font-weight:500; letter-spacing:1px; font-family:'DepartureMono', monospace;"></div>
+        <div id="previewClockTime" style="font-size:42px; font-weight:800; color:black; letter-spacing:3px; font-variant-numeric:tabular-nums; font-family:'DepartureMono', monospace;"></div>
       </div>`;
 
     function tickPreviewClock() {

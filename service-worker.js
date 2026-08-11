@@ -12,8 +12,9 @@ const FILES = [
   // JavaScript
   './assets/js/app.js',
 
-  // Fonts
-  './assets/fonts/PixelCaps.ttf',
+  // Fonts 
+    '/assets/fonts/DepartureMono-Regular.otf',
+    '/assets/fonts/GeistMono-SemiBold.ttf',
 
   // Images
   './assets/images/logo.png',
