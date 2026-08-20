@@ -15,6 +15,8 @@ const FILES = [
   // Fonts 
     '/assets/fonts/DepartureMono-Regular.otf',
     '/assets/fonts/GeistMono-SemiBold.ttf',
+    '/assets/fonts/AnekTamil-Regular.ttf',
+     '/assets/fonts/LEDDot-Matrix.ttf',
 
   // Images
   './assets/images/logo.png',
